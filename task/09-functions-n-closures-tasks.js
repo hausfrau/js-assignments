@@ -26,7 +26,7 @@
  *
  */
 function getComposition(f,g) {
-    throw new Error('Not implemented');
+    return (...args) => f(g(...args));
 }
 
 
@@ -84,7 +84,15 @@ function getPolynom() {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
-    throw new Error('Not implemented');
+    const _arguments = {};
+
+    return function () {
+        let args = JSON.stringify(arguments);
+        if (!(args in _arguments)) {
+            _arguments[args] = func.apply(this, arguments);
+        }
+        return _arguments[args];
+    };
 }
 
 
