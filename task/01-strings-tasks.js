@@ -201,7 +201,38 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-    throw new Error('Not implemented');
+    let rectangle = ``;
+
+    const printHyphen = n => {
+        let line = '';
+        for (let i = 0; i < n; i++) {
+            line += '─';
+        }
+
+        return line;
+    };
+
+    const printFirstLine = () => `┌${printHyphen(width - 2)}┐\n`;
+
+    const printLastLine = () => `└${printHyphen(width - 2)}┘\n`;
+
+    const printCenter = () => {
+        let string = ``;
+        for (let i = 0; i < height - 2; i++) {
+            string += `│`;
+            for (let j = 0; j < width - 2; j++) {
+                string += ` `;
+            }
+            string += `│\n`;
+        }
+        return string;
+    };
+
+    rectangle += printFirstLine();
+    rectangle += printCenter();
+    rectangle += printLastLine();
+
+    return rectangle;
 }
 
 
@@ -221,7 +252,30 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-    throw new Error('Not implemented');
+    const upperAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+    let currentAlphabet;
+    const stringArray = str.split('').join('').split('');
+    const isUpperCase = (symbol) => symbol.toUpperCase() === symbol;
+    const length = alphabet.length;
+
+    const newArray = stringArray.map(letter => {
+        if (isUpperCase(letter)) {
+            currentAlphabet = upperAlphabet;
+        } else {
+            currentAlphabet = alphabet;
+        }
+
+        let index = currentAlphabet.indexOf(letter);
+        if (index === -1) {
+            return letter;
+        } else {
+
+            return currentAlphabet.substr((index + 13 > length - 1 ? index + 13 - length : index + 13), 1);
+        }
+    });
+
+    return newArray.join('');
 }
 
 /**
@@ -238,7 +292,7 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-    throw new Error('Not implemented');
+    return (typeof value === 'string' || value instanceof String);
 }
 
 
@@ -267,7 +321,9 @@ function isString(value) {
  *   'K♠' => 51
  */
 function getCardId(value) {
-    throw new Error('Not implemented');
+    const cards = ['A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣', 'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦', 'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥', 'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠'];
+
+    return cards.findIndex((it) => it === value);
 }
 
 
